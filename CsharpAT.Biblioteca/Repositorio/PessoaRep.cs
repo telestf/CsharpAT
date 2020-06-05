@@ -198,6 +198,79 @@ namespace CsharpAT.Biblioteca.Repositorio
         {
             List<Pessoa> arquivoEmLista = CriarLista();
 
+            if (arquivoEmLista.Count() >= 1)
+            {
+                Console.WriteLine();
+
+                foreach (var pessoa in arquivoEmLista)
+                {
+                    Console.WriteLine($"{pessoa.Id} - {pessoa.Nome} {pessoa.Sobrenome}");
+                }
+
+                Console.Write("\r\nQual pessoa você deseja editar? Digite o número correspondente: ");
+
+                if (int.TryParse(Console.ReadLine(), out int escolha))
+                {
+                    IEnumerable<Pessoa> listaEscolha = arquivoEmLista.Where(p => p.Id == escolha);
+
+                    Console.WriteLine($"\r\nDigite os novos valores para {listaEscolha.ToArray()[0].Nome} {listaEscolha.ToArray()[0].Sobrenome}:\r\n");
+
+                    Console.Write("Nome: ");
+                    var nomeEdit = Console.ReadLine();
+                    Console.Write("Sobrenome: ");
+                    var sobrenomeEdit = Console.ReadLine();
+                    Console.Write("Data de Nascimento (no padrão dd/MM/yyyy): ");
+                    var dataNascimentoEdit = Console.ReadLine();
+
+                    Console.WriteLine($"\r\nOs valores estão corretos?\r\n\r\nNome Completo: {nomeEdit} {sobrenomeEdit}\r\nData de aniversário: {dataNascimentoEdit}\r\n");
+
+                    Console.Write("1 - Sim\r\n" +
+                       "0 - Não (Voltar ao menu principal)\r\n" +
+                       "\r\nEscolha uma opção: ");
+
+                    if (int.TryParse(Console.ReadLine(), out int opcao))
+                    {
+                        switch (opcao)
+                        {
+                            case 1:
+                                IEnumerable<Pessoa> listaDelete = arquivoEmLista.Where(p => p.Id != escolha);
+                                csv.Clear();
+                                if (listaDelete.ToList().Count >= 1)
+                                {
+                                    foreach (var pessoa in listaDelete)
+                                    {
+                                        csv.Append($"{pessoa.Id};{pessoa.Nome};{pessoa.Sobrenome};{pessoa.DataNascimento}\r\n");
+                                    }
+                                    csv.Append($"{listaDelete.ToList().Last().Id+1};{nomeEdit};{sobrenomeEdit};{dataNascimentoEdit}");
+                                }
+                                else
+                                {
+                                    csv.Append($"{1};{nomeEdit};{sobrenomeEdit};{dataNascimentoEdit}");
+                                }
+                                File.WriteAllText(arquivo, csv.ToString());
+                                Console.WriteLine("\r\nEntrada editada com sucesso!");
+                                break;
+                            case 0:
+                                break;
+                            default:
+                                Console.WriteLine("\r\nOpção Inválida!!\r\n");
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("\r\nOpção Inválida!!\r\n");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("\r\nOpção Inválida!!\r\n");
+                }
+            }
+            else
+            {
+                Console.WriteLine("\r\nNão há pessoas na lista.\r\n");
+            }
         }
 
         public static void DeletarPessoa()
@@ -234,7 +307,7 @@ namespace CsharpAT.Biblioteca.Repositorio
                                     csv.Append($"{pessoa.Id};{pessoa.Nome};{pessoa.Sobrenome};{pessoa.DataNascimento}\r\n");
                                 }
                                 File.WriteAllText(arquivo, csv.ToString());
-                                Console.WriteLine("\r\nEntrada removida com sucesso!\r\n");
+                                Console.WriteLine("\r\nEntrada removida com sucesso!");
                                 break;
                             case 0:
                                 break;
