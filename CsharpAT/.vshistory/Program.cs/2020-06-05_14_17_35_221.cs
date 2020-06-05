@@ -19,7 +19,7 @@ namespace CsharpAT
 
             do
             {
-                Console.Write("\r\nMenu Principal\r\n" +
+                Console.Write("Menu Principal\r\n" +
                     "\r\n1 - Pesquisar Pessoas\r\n" +
                         "2 - Adicionar Nova Pessoa\r\n" +
                         "3 - Editar uma Pessoa\r\n" +

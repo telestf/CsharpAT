@@ -45,16 +45,16 @@ namespace CsharpAT
                             PessoaRep.DeletarPessoa();
                             break;
                         case 0:
-                            Console.WriteLine("\r\nVocê encerrou a sessão.");
+                            Console.WriteLine("Você encerrou a sessão.");
                             break;
                         default:
-                            Console.WriteLine("\r\nOpção Inválida!!\r\n");
+                            Console.WriteLine("Opção Inválida!!\r\n");
                             break;
                     }
                 }
                 else
                 {
-                    Console.WriteLine("\r\nOpção Inválida!!\r\n");
+                    Console.WriteLine("Opção Inválida!!\r\n");
                 }
             }
             while (opcao != 0);

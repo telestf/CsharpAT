@@ -48,13 +48,13 @@ namespace CsharpAT
                             Console.WriteLine("\r\nVocê encerrou a sessão.");
                             break;
                         default:
-                            Console.WriteLine("\r\nOpção Inválida!!\r\n");
+                            Console.WriteLine("Opção Inválida!!\r\n");
                             break;
                     }
                 }
                 else
                 {
-                    Console.WriteLine("\r\nOpção Inválida!!\r\n");
+                    Console.WriteLine("Opção Inválida!!\r\n");
                 }
             }
             while (opcao != 0);

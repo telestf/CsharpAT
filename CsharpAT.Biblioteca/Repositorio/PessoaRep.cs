@@ -141,7 +141,7 @@ namespace CsharpAT.Biblioteca.Repositorio
 
         }
 
-        public static List<Pessoa> AdicionarPessoa()
+        public static void AdicionarPessoa()
         {
             List<Pessoa> arquivoEmLista = CriarLista();
 
@@ -161,7 +161,7 @@ namespace CsharpAT.Biblioteca.Repositorio
                 Console.WriteLine($"Data do Nascimento: {parsedData:dd/MM/yyyy} \r\n");
 
                 Console.Write("1 - Sim\r\n" +
-                        "0 - Não\r\n" +
+                        "0 - Não (Voltar ao menu principal)\r\n" +
                         "\r\nEscolha uma opção: ");
 
                 if (int.TryParse(Console.ReadLine(), out int opcao))
@@ -169,13 +169,18 @@ namespace CsharpAT.Biblioteca.Repositorio
                     switch (opcao)
                     {
                         case 1:
-                            csv.Append($"{arquivoEmLista.Count+1};{nome};{sobrenome};{dataNascimento}\r\n");
-                            File.AppendAllText(arquivo, csv.ToString());
+                            if (arquivoEmLista.Count >= 1)
+                            {
+                                csv.Append($"{arquivoEmLista.Last().Id + 1};{nome};{sobrenome};{dataNascimento}\r\n");
+                            }
+                            else
+                            {
+                                csv.Append($"1;{nome};{sobrenome};{dataNascimento}\r\n");
+                            }
+                            File.WriteAllText(arquivo, csv.ToString());
                             Console.WriteLine("\r\nDados adicionados com sucesso!\r\n");
                             break;
                         case 0:
-                            Console.WriteLine();
-                            AdicionarPessoa();
                             break;
                         default:
                             Console.WriteLine("\r\nOpção Inválida!!\r\n");
@@ -187,7 +192,71 @@ namespace CsharpAT.Biblioteca.Repositorio
             {
                 Console.WriteLine("\r\nFormato incorreto de data! Tente novamente.\r\n");
             }
-            return Pessoas;
+        }
+
+        public static void EditarPessoa()
+        {
+            List<Pessoa> arquivoEmLista = CriarLista();
+
+        }
+
+        public static void DeletarPessoa()
+        {
+            List<Pessoa> arquivoEmLista = CriarLista();
+
+            if (arquivoEmLista.Count() >= 1)
+            {
+                foreach (var pessoa in arquivoEmLista)
+                {
+                    Console.WriteLine($"{pessoa.Id} - {pessoa.Nome} {pessoa.Sobrenome}");
+                }
+
+                Console.Write("\r\nQual pessoa você deseja deletar? Digite o número correspondente: ");
+
+                if (int.TryParse(Console.ReadLine(), out int escolha))
+                {
+                    IEnumerable<Pessoa> listaEscolha = arquivoEmLista.Where(p => p.Id == escolha);
+                    Console.WriteLine($"\r\nVocê realmente deseja deletar essa pessoa da lista?\r\n\r\nNome Completo: {listaEscolha.ToArray()[0].Nome} {listaEscolha.ToArray()[0].Sobrenome}\r\nData de nascimento: {listaEscolha.ToArray()[0].DataNascimento:dd/MM/yyyy}\r\n");
+
+                    Console.Write("1 - Sim\r\n" +
+                       "0 - Não (Voltar ao menu principal)\r\n" +
+                       "\r\nEscolha uma opção: ");
+
+                    if (int.TryParse(Console.ReadLine(), out int opcao))
+                    {
+                        switch (opcao)
+                        {
+                            case 1:
+                                IEnumerable<Pessoa> listaDelete = arquivoEmLista.Where(p => p.Id != escolha);
+                                csv.Clear();
+                                foreach (var pessoa in listaDelete)
+                                {
+                                    csv.Append($"{pessoa.Id};{pessoa.Nome};{pessoa.Sobrenome};{pessoa.DataNascimento}\r\n");
+                                }
+                                File.WriteAllText(arquivo, csv.ToString());
+                                Console.WriteLine("\r\nEntrada removida com sucesso!\r\n");
+                                break;
+                            case 0:
+                                break;
+                            default:
+                                Console.WriteLine("\r\nOpção Inválida!!\r\n");
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("\r\nOpção Inválida!!\r\n");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("\r\nOpção Inválida!!\r\n");
+                }
+            }
+            else
+            {
+                Console.WriteLine("\r\nNão há pessoas na lista.\r\n");
+            }
         }
     }
 }
