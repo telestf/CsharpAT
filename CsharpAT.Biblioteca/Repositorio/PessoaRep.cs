@@ -36,7 +36,7 @@ namespace CsharpAT.Biblioteca.Repositorio
                     csv.AppendLine();
                 }
                 File.WriteAllText(arquivo, csv.ToString());
-                Console.WriteLine("O arquivo foi criado.");
+                Console.WriteLine("O arquivo foi criado.\r\n");
             }
         }
 
@@ -167,8 +167,8 @@ namespace CsharpAT.Biblioteca.Repositorio
                     switch (opcao)
                     {
                         case 1:
-                            Pessoa p = new Pessoa(nome, sobrenome, DateTime.Parse(dataNascimento));
-                            Pessoas.Add(p);
+                            csv.Append($"{nome};{sobrenome};{dataNascimento}\r\n");
+                            File.AppendAllText(arquivo, csv.ToString());
                             Console.WriteLine("\r\nDados adicionados com sucesso!\r\n");
                             break;
                         case 0:
