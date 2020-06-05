@@ -7,6 +7,8 @@ namespace CsharpAT
     {
         static void Main(string[] args)
         {
+            PessoaRep.CriarArquivo();          
+            PessoaRep.MostraPessoas();
             GerenciarAniversarios();
         }
 
@@ -16,7 +18,7 @@ namespace CsharpAT
 
             do
             {
-                Console.Write("Menu Principal\r\n" +
+                Console.Write("\r\nMenu Principal\r\n" +
                     "\r\n1 - Pesquisar Pessoas\r\n" +
                         "2 - Adicionar Nova Pessoa\r\n" +
                         "0 - Sair\r\n" +
