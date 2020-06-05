@@ -16,12 +16,12 @@ namespace CsharpAT.Biblioteca.Repositorio
 
         private static List<Pessoa> Pessoas = new List<Pessoa>()
         {
-            new Pessoa("Thyago", "Teles", DateTime.Parse("11/05/1989")),
-            new Pessoa("Candida", "Teles", DateTime.Parse("24/05/1962")),
-            new Pessoa("Gabrielle", "Teles", DateTime.Parse("29/12/1996")),
-            new Pessoa("Alexandre", "Ferreira", DateTime.Parse("21/07/1989")),
-            new Pessoa("Fulano", "Fulano", DateTime.Now.AddDays(-1)),
-            new Pessoa("Nome", "Sobrenome", DateTime.Now)
+            new Pessoa(1, "Thyago", "Teles", DateTime.Parse("11/05/1989")),
+            new Pessoa(2, "Candida", "Teles", DateTime.Parse("24/05/1962")),
+            new Pessoa(3, "Gabrielle", "Teles", DateTime.Parse("29/12/1996")),
+            new Pessoa(4, "Alexandre", "Ferreira", DateTime.Parse("21/07/1989")),
+            new Pessoa(5, "Fulano", "Fulano", DateTime.Now.AddDays(-1)),
+            new Pessoa(6, "Nome", "Sobrenome", DateTime.Now)
         };
 
         public static void CriarArquivo()
@@ -32,7 +32,7 @@ namespace CsharpAT.Biblioteca.Repositorio
 
                 foreach (var item in Pessoas)
                 {
-                    csv.Append($"{item.Nome};{item.Sobrenome};{item.DataNascimento:dd/MM/yyyy}");
+                    csv.Append($"{item.Id};{item.Nome};{item.Sobrenome};{item.DataNascimento:dd/MM/yyyy}");
                     csv.AppendLine();
                 }
                 File.WriteAllText(arquivo, csv.ToString());
@@ -51,7 +51,7 @@ namespace CsharpAT.Biblioteca.Repositorio
                 char[] separadores = new char[] { ';', ',', '\n' };
                 string[] dadosPessoa = linha.Split(separadores);
 
-                Pessoa p = new Pessoa(dadosPessoa[0], dadosPessoa[1], DateTime.Parse(dadosPessoa[2]));
+                Pessoa p = new Pessoa(int.Parse(dadosPessoa[0]), dadosPessoa[1], dadosPessoa[2], DateTime.Parse(dadosPessoa[3]));
 
                 arquivoEmLista.Add(p);
             }
@@ -143,6 +143,8 @@ namespace CsharpAT.Biblioteca.Repositorio
 
         public static List<Pessoa> AdicionarPessoa()
         {
+            List<Pessoa> arquivoEmLista = CriarLista();
+
             Console.WriteLine("\r\nVocê escolheu **ADICIONAR NOVA PESSOA*\r\n");
 
             Console.Write("Nome: ");
@@ -167,7 +169,7 @@ namespace CsharpAT.Biblioteca.Repositorio
                     switch (opcao)
                     {
                         case 1:
-                            csv.Append($"{nome};{sobrenome};{dataNascimento}\r\n");
+                            csv.Append($"{arquivoEmLista.Count+1};{nome};{sobrenome};{dataNascimento}\r\n");
                             File.AppendAllText(arquivo, csv.ToString());
                             Console.WriteLine("\r\nDados adicionados com sucesso!\r\n");
                             break;

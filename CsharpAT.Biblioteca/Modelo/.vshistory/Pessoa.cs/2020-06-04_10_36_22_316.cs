@@ -4,14 +4,12 @@ namespace CsharpAT.Biblioteca.Modelo
 {
     public class Pessoa
     {
-        public int Id;
         public string Nome;
         public string Sobrenome;
         public DateTime DataNascimento;
 
-        public Pessoa(int id, string nome, string sobrenome, DateTime dataNascimento)
+        public Pessoa(string nome, string sobrenome, DateTime dataNascimento)
         {
-            Id = id;
             Nome = nome;
             Sobrenome = sobrenome;
             DataNascimento = dataNascimento;
